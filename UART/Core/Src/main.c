@@ -56,6 +56,8 @@ void SystemClock_Config(void);
 /* USER CODE END PFP */
 
 uint8_t buffer[10] = {1,2,3,4,5,6,7,8,9,10};
+uint8_t buffer2[10];
+HAL_StatusTypeDef return_value;
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
@@ -102,7 +104,11 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  HAL_UART_Transmit(&huart2, buffer, 10, 100);
+
+	  return_value = HAL_UART_Transmit(&huart2, buffer, 10, 100);
+	  return_value = HAL_UART_Receive(&huart2, buffer2, 10, 100000);
+	  while(1);
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

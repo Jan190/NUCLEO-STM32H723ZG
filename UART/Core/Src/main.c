@@ -54,16 +54,25 @@ void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
-
-uint8_t buffer[10] = {1,2,3,4,5,6,7,8,9,10};
-uint8_t buffer2[10];
+uint8_t buffer_tx[10] = {1,2,3,4,5,6,7,8,9,10};
+uint8_t buffer_rx[10];
+uint8_t buffer_2rx[10];
 HAL_StatusTypeDef return_value;
-
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
 /* USER CODE END 0 */
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+	if(huart->Instance == USART1){
+		__NOP();	//Breakpoint
 
+	}
+	if(huart->Instance == USART2){
+		__NOP();	//Breakpoint
+	}
+
+}
 /**
   * @brief  The application entry point.
   * @retval int
@@ -96,19 +105,20 @@ int main(void)
   MX_USART3_UART_Init();
   MX_USB_OTG_HS_USB_Init();
   MX_USART2_UART_Init();
+  MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
 
+  HAL_UART_Receive_IT(&huart1, buffer_rx, 10);
+  HAL_UART_Receive_IT(&huart2, buffer_2rx, 10);
+
+
+  HAL_UART_Transmit_IT(&huart2, buffer_tx, 10);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-
-	  return_value = HAL_UART_Transmit(&huart2, buffer, 10, 100);
-	  return_value = HAL_UART_Receive(&huart2, buffer2, 10, 100000);
-	  while(1);
-
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
